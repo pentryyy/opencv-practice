@@ -1,8 +1,8 @@
 plugins {
-    id 'cpp-library'
+    id 'cpp-application'
     id 'cpp-unit-test'
 }
 
-library {
+application {
     targetMachines.add(machines.windows.x86_64)
 }

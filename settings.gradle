@@ -1,2 +1,2 @@
-rootProject.name = 'demo'
-include('lib')
+rootProject.name = 'opencv-practice'
+include('app')
