@@ -1,0 +1,8 @@
+### Gradle ###
+.gradle/
+
+### VS Code ###
+.vscode/
+
+### Build ###
+build/

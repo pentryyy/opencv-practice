@@ -1,0 +1,8 @@
+plugins {
+    id 'cpp-library'
+    id 'cpp-unit-test'
+}
+
+library {
+    targetMachines.add(machines.windows.x86_64)
+}
