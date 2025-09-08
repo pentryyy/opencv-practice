@@ -28,15 +28,24 @@ application {
 
 tasks.register('copyDll', Copy) {
     from 'C:/opencv/build/x64/vc16/bin/opencv_world4120.dll'
-    into layout.buildDirectory.dir("bin/${project.name}")
+    into layout.buildDirectory.dir("exe/main/debug")
 }
 
 tasks.register('copyImage', Copy) {
     from 'src/main/images/image.jpg'
-    into layout.buildDirectory.dir("bin/${project.name}/images")
+    into layout.buildDirectory.dir("exe/main/debug/images")
 }
 
 tasks.named('build') {
     dependsOn 'copyDll'
     dependsOn 'copyImage'
+
+    tasks.getByName('copyDll').mustRunAfter 'assemble'
+    tasks.getByName('copyImage').mustRunAfter 'assemble'
+}
+
+tasks.register('start', Exec) {
+    dependsOn 'build'
+    workingDir layout.buildDirectory.dir("exe/main/debug").get().asFile
+    commandLine 'cmd', '/c', 'app.exe'
 }
