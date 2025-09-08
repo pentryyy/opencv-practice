@@ -2,6 +2,8 @@ plugins {
     id 'cpp-application'
 }
 
+def buildDirectory = "exe/main/debug"
+
 application {
     targetMachines.add(machines.windows.x86_64)
     
@@ -28,12 +30,12 @@ application {
 
 tasks.register('copyDll', Copy) {
     from 'C:/opencv/build/x64/vc16/bin/opencv_world4120.dll'
-    into layout.buildDirectory.dir("exe/main/debug")
+    into layout.buildDirectory.dir(buildDirectory)
 }
 
 tasks.register('copyImage', Copy) {
     from 'src/main/images/image.jpg'
-    into layout.buildDirectory.dir("exe/main/debug/images")
+    into layout.buildDirectory.dir(buildDirectory + "/images")
 }
 
 tasks.named('build') {
@@ -46,6 +48,6 @@ tasks.named('build') {
 
 tasks.register('start', Exec) {
     dependsOn 'build'
-    workingDir layout.buildDirectory.dir("exe/main/debug").get().asFile
+    workingDir layout.buildDirectory.dir(buildDirectory).get().asFile
     commandLine 'cmd', '/c', 'app.exe'
 }
