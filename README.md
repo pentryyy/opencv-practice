@@ -1,10 +1,16 @@
 # Сборка Проекта
 
-Для запуска можно использовать либо `gradlew.bat` либо `gradle` из переменных окржения.  
+Для сборки можно использовать либо `gradlew.bat` либо `gradle` из переменных окржения.  
 Пример сборки через gradle:
 
 ```
 gradle clean build
+```
+
+Пример сборки через gradlew.bat:
+
+```
+./gradlew clean build
 ```
 
 # Запуск Проекта
@@ -16,8 +22,8 @@ gradle clean build
 ./app/build/exe/main/debug/app
 ```
 
-Пример запуска  тестов:
+Или можно воспользоваться задачей `start`.
 
 ```
-./app/build/exe/test/appTest
+gradle start
 ```
