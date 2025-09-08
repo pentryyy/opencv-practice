@@ -1,8 +1,42 @@
 plugins {
     id 'cpp-application'
-    id 'cpp-unit-test'
 }
 
 application {
     targetMachines.add(machines.windows.x86_64)
+    
+    binaries.configureEach { binary ->
+        if (binary.targetMachine.operatingSystemFamily.windows) {
+            binary.compileTask.get().compilerArgs.addAll(['/std:c++17', '/EHsc'])
+            binary.compileTask.get().includes.from('C:/opencv/build/include')
+            
+            binary.linkTask.get().linkerArgs.addAll([
+                '/LIBPATH:C:/opencv/build/x64/vc16/lib',
+                'opencv_world4120.lib'
+            ])
+        } else {
+            binary.compileTask.get().compilerArgs.addAll(['-std=c++17', '-O2'])
+            binary.compileTask.get().includes.from('C:/opencv/build/include')
+            
+            binary.linkTask.get().linkerArgs.addAll([
+                '-LC:/opencv/build/x64/vc16/lib',
+                '-lopencv_world4120'
+            ])
+        }
+    }
+}
+
+tasks.register('copyDll', Copy) {
+    from 'C:/opencv/build/x64/vc16/bin/opencv_world4120.dll'
+    into layout.buildDirectory.dir("bin/${project.name}")
+}
+
+tasks.register('copyImage', Copy) {
+    from 'src/main/images/image.jpg'
+    into layout.buildDirectory.dir("bin/${project.name}/images")
+}
+
+tasks.named('build') {
+    dependsOn 'copyDll'
+    dependsOn 'copyImage'
 }
